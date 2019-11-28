@@ -1,0 +1,14 @@
+coverage
+tests
+.editorconfig
+.gitattributes
+.npmrc.template
+jest.config.json
+tsconfig.json
+tslint.json
+.git
+.DS_Store
+.npmrc
+.travis.yml
+src
+dist
