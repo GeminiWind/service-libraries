@@ -26,13 +26,26 @@ const serviceClient = new ServiceClientFactory({
     name: <registered-service-name>
 });
 
-const response = await serviceClient.request({
-    url: '/authors',
-    method: 'GET'
-})
+const response = await serviceClient.request(config)
 ```
 
-The response is instance of Axios response, then you can manipulate the response 
+##### ServiceClientFactory API
+
+**serviceClient.request(config)**
+
+```javascript
+    // Send a POST request
+    const res = await serviceClient.request({
+        method: 'post',
+        url: '/user/12345',
+        data: {
+            firstName: 'Fred',
+            lastName: 'Flintstone'
+    }
+    });
+```
+
+This lib use axios as HTTP Client. For full config, you can see [here](https://github.com/axios/axios#request-config)
 
 #### Middlewares
 
@@ -48,6 +61,42 @@ import { useStorage } from '@hai.dinh/service-libraries/middlewares';
 const app = express();
 
 app.use(useStorage)
+
+// extract storageClient from your request
+app.get('/', (req, res) => {
+    const { storageClient } = res;
+})
+```
+
+**Storage Client API**
+
+- create
+```javascript
+    const record = await storageClient.create(documentPath, {
+        "Content": documentContent,
+        "Type": documentType,
+        "Attributes": documentAttributs,
+    })
+```
+- get
+```javascript
+    const record = await storageClient.get(documentPath)
+```
+- list
+```javascript
+    const record = await storageClient.list(options)
+```
+- update
+```javascript
+    const record = await storageClient.update(documentPath, {
+        "Content": documentContent,
+        "Type": documentType,
+        "Attributes": documentAttributs,
+    })
+```
+- delete
+```javascript
+    const record = await storageClient.delete(documentPath)
 ```
 
 ## TODOS

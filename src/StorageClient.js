@@ -11,7 +11,7 @@ class StorageClient {
     })
   }
 
-  async create(doc) {
+  async create(Path, doc) {
     let response;
     
     try {
@@ -20,10 +20,9 @@ class StorageClient {
         method: 'POST',
         data: {
           data: {
-            id: get(doc, 'Id'),
             type: 'documents',
             attributes: {
-                Path: get(doc, 'Path'),
+                Path: Path,
                 Content: get(doc, 'Content'),
                 Attributes: get(doc, 'Attributes'),
                 Type: get(doc, 'Type'),
@@ -39,7 +38,6 @@ class StorageClient {
       }
     } catch (err) {
         if (err.response) {
-          console.log(err.response.data);
           response = normalizeErrorResponse(err.response);
         } else {
           console.log('Error in creating document.', err);
@@ -51,12 +49,12 @@ class StorageClient {
     return response;
   }
 
-  async get(Id) {
+  async get(Path) {
     let response;
     
     try {
       const res = await this.storageClient.request({
-        url: `/documents/${Id}`,
+        url: `/documents/${Path}`,
         method: 'GET',
       });
 
@@ -112,16 +110,15 @@ class StorageClient {
     return response;
   }
 
-  async update(Id, doc) {
+  async update(Path, doc) {
     let response;
     
     try {
       const res = await this.storageClient.request({
-        url: `/documents/${Id}`,
+        url: `/documents/${Path}`,
         method: 'PATCH',
         data: {
           data: {
-            id: get(doc, 'Id'),
             type: 'documents',
             attributes: {
               Content: get(doc, 'Content'),
@@ -150,12 +147,12 @@ class StorageClient {
     return response;
   }
 
-  async delete(Id) {
+  async delete(Path) {
     let response;
     
     try {
       const res = await this.storageClient.request({
-        url: `/documents/${Id}`,
+        url: `/documents/${Path}`,
         method: 'DELETE',
       });
       
