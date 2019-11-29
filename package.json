@@ -1,6 +1,6 @@
 {
   "name": "@hai.dinh/service-libraries",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Utilized libraries for services",
   "main": "index.js",
   "scripts": {
