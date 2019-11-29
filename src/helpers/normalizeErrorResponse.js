@@ -5,5 +5,5 @@ export default function normalizeErrorResponse(response) {
     statusCode: get(response, 'status'),
     body: get(response, 'data'),
     headers: get(response, 'headers'),
-  }
+  };
 }

@@ -3,16 +3,16 @@ import axios from 'axios';
 
 class ServiceClientFactory {
   constructor({ name }) {
-      this.name = name;
-      // TODO: load endpoint based on environment (dev, qa, staging, prod)
-      this.serviceRegistryEndpoint = 'http://localhost:3000'
+    this.name = name;
+    // TODO: load endpoint based on environment (dev, qa, staging, prod)
+    this.serviceRegistryEndpoint = 'http://localhost:3000';
   }
 
   async request(config) {
     let response;
-    
+
     try {
-      response = await axios.get(`${this.serviceRegistryEndpoint}/services/${this.name}`);  
+      response = await axios.get(`${this.serviceRegistryEndpoint}/services/${this.name}`);
     } catch (err) {
       throw new InternalError('Error in getting service endpoint');
     }
@@ -21,16 +21,16 @@ class ServiceClientFactory {
       data: {
         data: {
           attributes: {
-            endpoint: serviceEndpoint
-          }
-        }
-      }
+            endpoint: serviceEndpoint,
+          },
+        },
+      },
     } = response;
 
     return axios({
       ...config,
       baseURL: serviceEndpoint,
-    })
+    });
   }
 }
 

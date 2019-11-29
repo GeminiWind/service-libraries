@@ -1,3 +1,5 @@
 import ServiceClientFactory from './ServiceClientFactory';
+import schemaValidator from './schemaValidator';
+import httpHandler from './httpHandler';
 
-export { ServiceClientFactory };
+export { ServiceClientFactory, httpHandler, schemaValidator };

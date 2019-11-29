@@ -7,13 +7,13 @@ import { normalizeDocument, normalizeErrorResponse } from './helpers';
 class StorageClient {
   constructor() {
     this.storageClient = new ServiceClientFactory({
-        name: 'storage-service'
-    })
+      name: 'storage-service',
+    });
   }
 
   async create(Path, doc) {
     let response;
-    
+
     try {
       const res = await this.storageClient.request({
         url: '/documents',
@@ -22,36 +22,36 @@ class StorageClient {
           data: {
             type: 'documents',
             attributes: {
-                Path: Path,
-                Content: get(doc, 'Content'),
-                Attributes: get(doc, 'Attributes'),
-                Type: get(doc, 'Type'),
-            }
-          }
-        }
+              Path,
+              Content: get(doc, 'Content'),
+              Attributes: get(doc, 'Attributes'),
+              Type: get(doc, 'Type'),
+            },
+          },
+        },
       });
 
       response = {
         statusCode: res.status,
         body: normalizeDocument(res.data.data),
         headers: res.headers,
-      }
+      };
     } catch (err) {
-        if (err.response) {
-          response = normalizeErrorResponse(err.response);
-        } else {
-          console.log('Error in creating document.', err);
+      if (err.response) {
+        response = normalizeErrorResponse(err.response);
+      } else {
+        console.log('Error in creating document.', err);
 
-          throw new InternalError('Error in creating document.');
-        }
+        throw new InternalError('Error in creating document.');
       }
+    }
 
     return response;
   }
 
   async get(Path) {
     let response;
-    
+
     try {
       const res = await this.storageClient.request({
         url: `/documents/${Path}`,
@@ -62,7 +62,7 @@ class StorageClient {
         statusCode: res.status,
         body: normalizeDocument(res.data),
         headers: res.headers,
-      }
+      };
     } catch (err) {
       if (err.response) {
         response = normalizeErrorResponse(err.response);
@@ -78,8 +78,8 @@ class StorageClient {
 
   async list(options) {
     let response;
-    
-    let q = queryString.stringify({
+
+    const q = queryString.stringify({
       query: get(options, 'query'),
       sort: get(options, 'sort'),
       skip: get(options, 'skip'),
@@ -91,28 +91,28 @@ class StorageClient {
         url: `/documents?${q}`,
         method: 'GET',
       });
-      
+
       response = {
         statusCode: res.status,
         body: res.data.data.map(doc => normalizeDocument(doc)),
         headers: res.headers,
-      }
+      };
     } catch (err) {
-        if (err.response) {
-          response = normalizeErrorResponse(err.response);
-        } else {
-          console.log('Error in listing document.', err);
+      if (err.response) {
+        response = normalizeErrorResponse(err.response);
+      } else {
+        console.log('Error in listing document.', err);
 
-          throw new InternalError('Error in listing document.');
-        }
+        throw new InternalError('Error in listing document.');
       }
+    }
 
     return response;
   }
 
   async update(Path, doc) {
     let response;
-    
+
     try {
       const res = await this.storageClient.request({
         url: `/documents/${Path}`,
@@ -124,16 +124,16 @@ class StorageClient {
               Content: get(doc, 'Content'),
               Attributes: get(doc, 'Attributes'),
               Type: get(doc, 'Type'),
-            }
-          }
-        }
+            },
+          },
+        },
       });
-      
+
       response = {
         statusCode: res.status,
         body: normalizeDocument(res.data.data),
         headers: res.headers,
-      }
+      };
     } catch (err) {
       if (err.response) {
         response = normalizeErrorResponse(err.response);
@@ -149,18 +149,18 @@ class StorageClient {
 
   async delete(Path) {
     let response;
-    
+
     try {
       const res = await this.storageClient.request({
         url: `/documents/${Path}`,
         method: 'DELETE',
       });
-      
+
       response = {
         statusCode: res.status,
         body: res.data,
         headers: res.headers,
-      }
+      };
     } catch (err) {
       if (err.response) {
         response = normalizeErrorResponse(err.response);

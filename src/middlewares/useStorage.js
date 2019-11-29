@@ -3,9 +3,9 @@ import StorageClient from '../StorageClient';
 const storageClient = new StorageClient();
 
 const useStorage = (req, res, next) => {
-    req.storageClient = storageClient;
+  req.storageClient = storageClient;
 
-    next();
-}
+  next();
+};
 
 export default useStorage;

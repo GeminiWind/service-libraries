@@ -4,11 +4,13 @@
   "description": "Utilized libraries for services",
   "main": "index.js",
   "scripts": {
-    "test": "echo 'To be defined test'",
+    "lint": "yarn eslint src/*",
+    "test": "echo 'Running unit test...'",
     "build": "chmod +x ./scripts/build && ./scripts/build",
     "prepublishOnly": "cp -r ./build/* . && rm -rf ./build"
   },
   "dependencies": {
+    "ajv": "^6.10.2",
     "axios": "^0.19.0",
     "json-api-error": "^1.0.5",
     "lodash.get": "^4.4.2"
