@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Changed endpoint of `registry-service` to host name. not `localhost`
+
 ## [0.0.4] - 03-12-2019
 
 ### Added

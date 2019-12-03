@@ -5,7 +5,7 @@ class ServiceClientFactory {
   constructor({ name }) {
     this.name = name;
     // TODO: load endpoint based on environment (dev, qa, staging, prod)
-    this.serviceRegistryEndpoint = 'http://localhost:3000';
+    this.serviceRegistryEndpoint = 'http://registry-service:3000';
   }
 
   async request(config) {
