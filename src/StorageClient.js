@@ -1,6 +1,7 @@
 import { InternalError } from 'json-api-error';
 import get from 'lodash.get';
-import queryString from 'querystring';
+import qs from 'qs';
+import * as R from 'ramda';
 import ServiceClientFactory from './ServiceClientFactory';
 import { normalizeDocument, normalizeErrorResponse } from './helpers';
 
@@ -79,11 +80,16 @@ class StorageClient {
   async list(options) {
     let response;
 
-    const q = queryString.stringify({
-      query: get(options, 'query'),
-      sort: get(options, 'sort'),
-      skip: get(options, 'skip'),
-      limit: get(options, 'limit'),
+    const query = R.pipe(
+      JSON.stringify,
+      encodeURIComponent,
+    )(R.pathOr({}, ['query'], options));
+
+    const q = qs.stringify({
+      query,
+      sort: get('sort', options),
+      skip: R.pathOr(0, ['skip'], options),
+      limit: R.pathOr(100, ['limit'], options),
     });
 
     try {

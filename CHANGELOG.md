@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Use `encodeURIComponent` to encode `query` option in `StorageClient - list` operation
+
 ## [0.0.5] - 03-12-2019
 
 ### Changed
