@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.8] - 05-03-2020
+
 ### Added
 
 - Added `Accept` & `Content-Type` into request headers in `StorageClient`
