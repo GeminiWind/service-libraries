@@ -13,7 +13,7 @@ const httpHandler = fn => async (req, res, next) => {
     const result = await fn(req);
 
     if (result) {
-      const headers = getHeaders();
+      const headers = getHeaders(result);
 
       res.set(headers).status(result.statusCode).json(result.body);
     }

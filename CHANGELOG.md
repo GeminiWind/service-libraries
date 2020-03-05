@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Donot parse origin response headers in `httpHandler` function
+
 ## [0.0.8] - 05-03-2020
 
 ### Added
