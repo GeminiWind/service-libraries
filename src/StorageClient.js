@@ -19,6 +19,10 @@ class StorageClient {
       const res = await this.storageClient.request({
         url: '/documents',
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/vnd.api+json',
+          Accept: 'application/vnd.api+json',
+        },
         data: {
           data: {
             type: 'documents',
@@ -57,6 +61,10 @@ class StorageClient {
       const res = await this.storageClient.request({
         url: `/documents/${Path}`,
         method: 'GET',
+        headers: {
+          'Content-Type': 'application/vnd.api+json',
+          Accept: 'application/vnd.api+json',
+        },
       });
 
       response = {
@@ -96,6 +104,10 @@ class StorageClient {
       const res = await this.storageClient.request({
         url: `/documents?${q}`,
         method: 'GET',
+        headers: {
+          'Content-Type': 'application/vnd.api+json',
+          Accept: 'application/vnd.api+json',
+        },
       });
 
       response = {
@@ -123,6 +135,10 @@ class StorageClient {
       const res = await this.storageClient.request({
         url: `/documents/${Path}`,
         method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/vnd.api+json',
+          Accept: 'application/vnd.api+json',
+        },
         data: {
           data: {
             type: 'documents',
@@ -160,6 +176,10 @@ class StorageClient {
       const res = await this.storageClient.request({
         url: `/documents/${Path}`,
         method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/vnd.api+json',
+          Accept: 'application/vnd.api+json',
+        },
       });
 
       response = {
