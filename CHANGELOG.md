@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Patch `Accept` & `Content-Type` into response headers in `httpHandler` function
+
 ## [0.0.6] - 03-02-2020
 
 ### Changed

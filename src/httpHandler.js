@@ -1,9 +1,21 @@
+import * as R from 'ramda';
+
+const getHeaders = R.pipe(
+  r => R.pathOr({}, ['headers'], r),
+  headers => R.mergeLeft(headers, {
+    'Content-Type': 'application/vnd.api+json',
+    Accept: 'application/vnd.api+json',
+  }),
+);
+
 const httpHandler = fn => async (req, res, next) => {
   try {
     const result = await fn(req);
 
     if (result) {
-      res.set(result.headers || {}).status(result.statusCode).json(result.body);
+      const headers = getHeaders();
+
+      res.set(headers).status(result.statusCode).json(result.body);
     }
 
     next();
