@@ -1,4 +1,4 @@
 import useStorage from './useStorage';
+import useInstrumentation from './useInstrumentation';
 
-// eslint-disable-next-line import/prefer-default-export
-export { useStorage };
+export { useStorage, useInstrumentation };

@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add `logger`
+- Add `useInstrumentation` middleware
+
 ## [0.0.9] - 05-03-2020
 
 ### Fixed
