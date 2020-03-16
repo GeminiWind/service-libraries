@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Change mode to `644` for log files
+
 ## [0.1.0] - 12-03-2020
 
 ### Added

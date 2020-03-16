@@ -12,8 +12,8 @@ log4js.configure(
         backups: 5, // keep five backup files
         compress: true, // compress the backups
         encoding: 'utf-8',
-        mode: 0o0640,
-        flags: 'w+',
+        mode: 0o644,
+        flags: 'a',
       },
       out: {
         type: 'stdout',
@@ -24,8 +24,8 @@ log4js.configure(
         maxLogSize: 10 * 1024 * 1024, // = 10Mb
         compress: true, // compress the backups
         encoding: 'utf-8',
-        mode: 0o0640,
-        flags: 'w+',
+        mode: 0o644,
+        flags: 'a',
       },
       errors: {
         type: 'logLevelFilter',
