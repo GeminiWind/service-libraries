@@ -1,5 +1,8 @@
 # **Service Libraries**
 
+[![Build Status](https://travis-ci.com/GeminiWind/service-libraries.svg?branch=master)](https://travis-ci.com/GeminiWind/service-libraries)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A collection of utilities for services in [mircoservice-poc](https://github.com/GeminiWind/microservice-poc)
 
 ## Installation
@@ -36,7 +39,17 @@ const app = express();
 
 app.get('/hello-world', httpHandler(simpleResponse))
 
+```
 
+### schemaValidator
+
+`schemaValidator` is basically instance of `ajv` (to validate data with the corresponding schema), including some basic configuration. To use `schemaValidator`, follow the instruction
+
+```javascript
+import { schemaValidator } from '@hai.dinh/service-libraries';
+
+const validator = schemaValidator.compile(schema);
+const isValid = validator(yourData);
 ```
 
 ### ServiceClientFactory

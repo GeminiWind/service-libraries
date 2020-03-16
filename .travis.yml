@@ -1,7 +1,7 @@
 dist: trusty
 sudo: false
 language: node_js
-node_js: '8.10'
+node_js: '10.19.0'
 cache: yarn
 install:
 - yarn
@@ -9,8 +9,8 @@ jobs:
   include:
     - stage:  lint
       script: yarn lint
-    # - stage:  test
-    #   script: yarn test
+    - stage:  test
+      script: yarn test
     # - stage:  coverage
     #   script: yarn test:coverage
     - stage: publish

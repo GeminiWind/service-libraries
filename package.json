@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "yarn eslint src/*",
-    "test": "echo 'Running unit test...'",
+    "test": "yarn jest",
     "build": "chmod +x ./scripts/build && ./scripts/build",
     "prepublishOnly": "cp -r ./build/* . && rm -rf ./build"
   },
@@ -20,17 +20,19 @@
   },
   "devDependencies": {
     "@babel/cli": "^7.4.4",
-    "@babel/core": "^7.4.4",
+    "@babel/core": "^7.8.7",
     "@babel/node": "^7.2.2",
     "@babel/plugin-transform-runtime": "^7.6.2",
-    "@babel/polyfill": "^7.4.4",
+    "@babel/polyfill": "^7.8.7",
     "@babel/preset-env": "^7.4.4",
     "@babel/runtime": "^7.7.2",
+    "babel-jest": "^25.1.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.17.2",
     "eslint-plugin-jest": "^22.5.1",
-    "jest": "^24.7.1"
+    "jest": "^25.1.0",
+    "nock": "^12.0.2"
   },
   "keywords": [],
   "author": "Gemini Wind <gemini.wind285@gmail.com>",
