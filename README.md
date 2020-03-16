@@ -2,20 +2,46 @@
 
 A collection of utilities for services in [mircoservice-poc](https://github.com/GeminiWind/microservice-poc)
 
-## Getting Started
-
-### Installation
+## Installation
 The easiest way to install `service-libraries` is using NPM. If you have Node.js installed, it is most likely that you have NPM installed as well.
 
 ```
 $ npm install @hai.dinh/service-libraries
 ```
 
-### Usage
+## Usage
 
-#### ServiceClientFactory
+### httpHandler
 
-`ServiceClientFactory` acts as service discovery in microservice system. To use this, do the following:
+Being inspired by AWS Lambda response for API Gateway styling, this function retrieves your response, which being like AWS Lambda response, then transform to express response
+
+```javascript
+function simpleResponse(req) {
+  return {
+      statusCode: 200,
+      body: {
+          message: 'Hello World !'
+      },
+      headers: {
+          'Content-Type': 'application/json'
+      }
+  }
+}
+
+...
+import express from 'express';
+import { httpHandler } from '@hai.dinh/service-libraries';
+
+const app = express();
+
+app.get('/hello-world', httpHandler(simpleResponse))
+
+
+```
+
+### ServiceClientFactory
+
+`ServiceClientFactory` acts as service discovery in microservice system to find the endpoint of targeted service. To use this, do the following:
 
 ```javascript
 import { ServiceClientFactory } from '@hai.dinh/service-libraries';
@@ -29,9 +55,9 @@ const serviceClient = new ServiceClientFactory({
 const response = await serviceClient.request(config)
 ```
 
-##### ServiceClientFactory API
+#### ServiceClientFactory API
 
-**serviceClient.request(config)**
+- serviceClient.request(config)
 
 ```javascript
     // Send a POST request
@@ -41,17 +67,16 @@ const response = await serviceClient.request(config)
         data: {
             firstName: 'Fred',
             lastName: 'Flintstone'
-    }
+        }
     });
 ```
+`ServiceClientFactory` uses `axios` as HTTP Client. For full config, you can get in [here](https://github.com/axios/axios#request-config).
 
-This lib use axios as HTTP Client. For full config, you can see [here](https://github.com/axios/axios#request-config)
+### Middlewares
 
-#### Middlewares
+#### useStorage
 
-##### useStorage
-
-`useStorage` middleware attach storage in the request to help your service using storage in the easiest way
+`useStorage` middleware delegates `storageClient` in the request to help your service using storage in the easiest way
 
 ```javascript
 import { useStorage } from '@hai.dinh/service-libraries/middlewares';
@@ -62,13 +87,13 @@ const app = express();
 
 app.use(useStorage)
 
-// extract storageClient from your request
+// get storageClient from your request
 app.get('/', (req, res) => {
     const { storageClient } = res;
 })
 ```
 
-**Storage Client API**
+##### Storage Client API
 
 - create
 ```javascript
@@ -97,6 +122,59 @@ app.get('/', (req, res) => {
 - delete
 ```javascript
     const record = await storageClient.delete(documentPath)
+```
+
+#### useInstrumentation
+
+`useInstrumentation` provides instrumentation to support logging for application. Log will be streamed to `stdout` and saved to file `log/app.log`
+
+```javascript
+import { useInstrumentation } from '@hai.dinh/service-libraries/middlewares';
+
+...
+// in your service (Express)
+const app = express();
+
+app.use(useInstrumentation)
+
+// get instrumentation from your request
+app.get('/', (req, res) => {
+    const { instrumentation } = res;
+})
+```
+
+##### Instrumentation API
+
+- trace
+```javascript
+instrumentation.trace('Process started!');
+// Output
+// [2010-01-17 11:43:37.987] [TRACE] default - Process started!
+```
+- debug
+```javascript
+instrumentation.debug('Got notification');
+// Output
+// [2010-01-17 11:43:37.987] [DEBUG] default - Got notification!
+```
+- info
+```javascript
+instrumentation.info('Hello World!');
+// Output
+// [2010-01-17 11:43:37.987] [INFO] default - Hello World!
+```
+- warn
+```javascript
+instrumentation.warn('Warn!');
+// Output
+// [2010-01-17 11:43:37.987] [WARN] default - Warn!
+```
+- error
+```javascript
+instrumentation.error('Error!');
+
+// Output
+// [2010-01-17 11:43:37.987] [ERROR] default - Error!
 ```
 
 ## TODOS
