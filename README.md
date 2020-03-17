@@ -190,6 +190,28 @@ instrumentation.error('Error!');
 // [2010-01-17 11:43:37.987] [ERROR] default - Error!
 ```
 
+#### useHttpLogger
+
+`useHttpLogger` allow your Express server to log http as CSL format.
+
+Below is the example of log
+
+```
+127.0.0.1 - haidv@gmail.com [10/Oct/2000:13:55:36 -0700] "GET /apache_pb.gif HTTP/1.0" 200 2326 "http://referer.com" "PostmanRuntime/7.23.0"
+```
+
+**Usage**
+```javascript
+import { useHttpLogger } from '@hai.dinh/service-libraries/middlewares';
+
+...
+// in your service (Express)
+const app = express();
+
+app.use(useHttpLogger)
+
+```
+
 ## TODOS
 
 - [] Writing test

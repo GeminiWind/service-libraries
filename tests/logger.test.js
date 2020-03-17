@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { promisify } from 'util';
-import logger from '../src/logger';
+import logger, { httpLogger } from '../src/logger';
 
 const sleep = promisify(setTimeout);
 
@@ -62,5 +62,47 @@ describe('logger', () => {
     expect(content).toMatch(/\[\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}] \[INFO] default - Your account has started subscribe gold plan/);
 
     emptyFile('log/app.log');
+  });
+});
+
+describe('httpLogger', () => {
+  afterAll(() => {
+    removeFile('log/access.log');
+  });
+
+  it('should log error level correctly', async () => {
+    httpLogger.error('Oops! Something went wrong');
+
+    await sleep(1000);
+
+    const content = fs.readFileSync('log/access.log').toString();
+
+    expect(content).toMatch(/Oops! Something went wrong/);
+
+    emptyFile('log/access.log');
+  });
+
+  it('should log warn level correctly', async () => {
+    httpLogger.warn('Warning');
+
+    await sleep(1000);
+
+    const content = fs.readFileSync('log/access.log').toString();
+
+    expect(content).toMatch(/Warning/);
+
+    emptyFile('log/access.log');
+  });
+
+  it('should log info level correctly', async () => {
+    httpLogger.info('Your account has started subscribe gold plan');
+
+    await sleep(1000);
+
+    const content = fs.readFileSync('log/access.log').toString();
+
+    expect(content).toMatch(/Your account has started subscribe gold plan/);
+
+    emptyFile('log/access.log');
   });
 });
