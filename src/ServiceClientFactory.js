@@ -1,5 +1,17 @@
+import * as R from 'ramda';
 import { InternalError } from 'json-api-error';
 import axios from 'axios';
+
+const patchHeaders = R.pipe(
+  r => R.pathOr({}, ['headers'], r),
+  headers => R.mergeRight(headers, {
+    ...(process.env['X-Request-ID'] ? { 'X-Request-Id': process.env['X-Request-ID'] } : {}),
+  }),
+  headers => R.mergeLeft(headers, {
+    'Content-Type': 'application/vnd.api+json',
+    Accept: 'application/vnd.api+json',
+  }),
+);
 
 class ServiceClientFactory {
   constructor({ name }) {
@@ -29,6 +41,7 @@ class ServiceClientFactory {
 
     return axios({
       ...config,
+      headers: patchHeaders(config),
       baseURL: serviceEndpoint,
     });
   }
