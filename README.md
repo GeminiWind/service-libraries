@@ -137,6 +137,22 @@ app.get('/', (req, res) => {
     const record = await storageClient.delete(documentPath)
 ```
 
+#### traceRequest
+
+`traceRequest` middleware allow Express application to capture and foward `X-Request-ID` from original request headers to other services in communication to ease tracing
+
+- Usage
+
+```javascript
+import { traceRequest } from '@hai.dinh/service-libraries/middlewares';
+
+...
+// in your service (Express)
+const app = express();
+
+app.use(traceRequest)
+```
+
 #### useInstrumentation
 
 `useInstrumentation` provides instrumentation to support logging for application. Log will be streamed to `stdout` and saved to file `log/app.log`
@@ -162,32 +178,47 @@ app.get('/', (req, res) => {
 ```javascript
 instrumentation.trace('Process started!');
 // Output
-// [2010-01-17 11:43:37.987] [TRACE] default - Process started!
+// If X-Request-ID is NA
+// [2010-01-17 11:43:37.987] [TRACE] - - Process started!
+// IF X-Request-ID is available (by useTraceRequest)
+// [2010-01-17 11:43:37.987] [TRACE] 1212121 - Process started!
 ```
 - debug
 ```javascript
 instrumentation.debug('Got notification');
 // Output
-// [2010-01-17 11:43:37.987] [DEBUG] default - Got notification!
+// If X-Request-ID is NA
+// [2010-01-17 11:43:37.987] [DEBUG] - - Got notification!
+// IF X-Request-ID is available (by useTraceRequest)
+// [2010-01-17 11:43:37.987] [DEBUG] 1212121 - Got notification!
 ```
 - info
 ```javascript
 instrumentation.info('Hello World!');
 // Output
-// [2010-01-17 11:43:37.987] [INFO] default - Hello World!
+// If X-Request-ID is NA
+// [2010-01-17 11:43:37.987] [INFO] - - Hello World!
+// IF X-Request-ID is available (by useTraceRequest)
+// [2010-01-17 11:43:37.987] [INFO] 1212121 - Hello World!
 ```
 - warn
 ```javascript
 instrumentation.warn('Warn!');
 // Output
-// [2010-01-17 11:43:37.987] [WARN] default - Warn!
+// If X-Request-ID is NA
+// [2010-01-17 11:43:37.987] [WARN] - - Warn!
+// IF X-Request-ID is available (by useTraceRequest)
+// [2010-01-17 11:43:37.987] [WARN] 121313 - Warn!
 ```
 - error
 ```javascript
 instrumentation.error('Error!');
 
 // Output
-// [2010-01-17 11:43:37.987] [ERROR] default - Error!
+// If X-Request-ID is NA
+// [2010-01-17 11:43:37.987] [ERROR] - - Error!
+// IF X-Request-ID is available (by useTraceRequest)
+// [2010-01-17 11:43:37.987] [ERROR] 123212 - Error!
 ```
 
 #### useHttpLogger
@@ -200,7 +231,7 @@ Below is the example of log
 127.0.0.1 - haidv@gmail.com [10/Oct/2000:13:55:36 -0700] "GET /apache_pb.gif HTTP/1.0" 200 2326 "http://referer.com" "PostmanRuntime/7.23.0"
 ```
 
-**Usage**
+- Usage:
 ```javascript
 import { useHttpLogger } from '@hai.dinh/service-libraries/middlewares';
 

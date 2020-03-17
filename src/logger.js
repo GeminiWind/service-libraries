@@ -14,6 +14,13 @@ log4js.configure(
         encoding: 'utf-8',
         mode: 0o644,
         flags: 'a',
+        layout: {
+          type: 'pattern',
+          pattern: '[%d] [%p] %x{requestId} - %m',
+          tokens: {
+            requestId: () => (process.env['X-Request-ID'] ? process.env['X-Request-ID'] : '-'),
+          },
+        },
       },
       http: {
         type: 'file',
@@ -36,6 +43,13 @@ log4js.configure(
       },
       out: {
         type: 'stdout',
+        layout: {
+          type: 'pattern',
+          pattern: '[%d] [%p] %x{requestId} - %m',
+          tokens: {
+            requestId: () => (process.env['X-Request-ID'] ? process.env['X-Request-ID'] : '-'),
+          },
+        },
       },
       errorFile: {
         type: 'file',
