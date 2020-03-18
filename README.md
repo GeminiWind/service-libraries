@@ -228,7 +228,11 @@ instrumentation.error('Error!');
 Below is the example of log
 
 ```
-127.0.0.1 - haidv@gmail.com [10/Oct/2000:13:55:36 -0700] "GET /apache_pb.gif HTTP/1.0" 200 2326 "http://referer.com" "PostmanRuntime/7.23.0"
+127.0.0.1 - haidv@gmail.com [10/Oct/2000:13:55:36 -0700] "GET /apache_pb.gif HTTP/1.0" 200 2326 "http://referer.com" "PostmanRuntime/7.23.0" vxve23sdgs45sdvw
+
+
+log-format = %(addr) %(ident) %(user) [%(ltime)] "%(method) %(uri) %(proto)" %(status) 
+%(size) "%(referer)" "%(uagent)" %(requestid)
 ```
 
 - Usage:
@@ -242,7 +246,3 @@ const app = express();
 app.use(useHttpLogger)
 
 ```
-
-## TODOS
-
-- [] Writing test
