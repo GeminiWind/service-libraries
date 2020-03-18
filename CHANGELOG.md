@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add `X-Request-ID` field to log http.
+
 ## [0.3.1] - 16-03-2020
 
 ### Changed

@@ -4,7 +4,7 @@ import { httpLogger } from '../logger';
 
 const useHttpLogger = log4js.connectLogger(httpLogger, {
   level: 'auto',
-  format: (req, res, format) => format(`:remote-addr - ${req.headers['x-remote-user'] ? req.headers['x-remote-user'] : '-'} [${moment().strftime('%d/%b/%Y:%H:%M:%S %z')}]  ":method :url HTTP/:http-version" :status :content-length ":referrer" ":user-agent"`),
+  format: (req, res, format) => format(`:remote-addr - ${req.headers['x-remote-user'] ? req.headers['x-remote-user'] : '-'} [${moment().strftime('%d/%b/%Y:%H:%M:%S %z')}]  ":method :url HTTP/:http-version" :status :content-length ":referrer" ":user-agent" ${req.headers['x-request-id'] ? req.headers['x-request-id'] : '-'}`),
 });
 
 export default useHttpLogger;
