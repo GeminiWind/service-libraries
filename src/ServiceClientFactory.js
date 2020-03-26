@@ -1,6 +1,7 @@
 import * as R from 'ramda';
-import { InternalError } from 'json-api-error';
+import { NotFoundError } from 'json-api-error';
 import axios from 'axios';
+import { readJsonAtRoot } from './helpers';
 
 const patchHeaders = R.pipe(
   r => R.pathOr({}, ['headers'], r),
@@ -14,36 +15,37 @@ const patchHeaders = R.pipe(
 );
 
 class ServiceClientFactory {
-  constructor({ name }) {
-    this.name = name;
-    // TODO: load endpoint based on environment (dev, qa, staging, prod)
-    this.serviceRegistryEndpoint = 'http://registry-service:3000';
+  constructor(id) {
+    this.id = id;
+    this.serviceEnv = undefined;
+  }
+
+  setServiceEnv(serviceEnv) {
+    this.serviceEnv = serviceEnv;
   }
 
   async request(config) {
-    let response;
+    const resolvedDependencies = R.pathOr([], ['dependencies'], this.serviceEnv);
+    const target = R.find(R.propEq('id', this.id))(resolvedDependencies);
 
-    try {
-      response = await axios.get(`${this.serviceRegistryEndpoint}/services/${this.name}`);
-    } catch (err) {
-      throw new InternalError('Error in getting service endpoint');
+    if (!target) {
+      throw new NotFoundError(`Service with id: "${this.id}" was not found`);
     }
-
-    const {
-      data: {
-        data: {
-          attributes: {
-            endpoint: serviceEndpoint,
-          },
-        },
-      },
-    } = response;
 
     return axios({
       ...config,
       headers: patchHeaders(config),
-      baseURL: serviceEndpoint,
+      baseURL: target.endpoint,
     });
+  }
+
+  static async create(id) {
+    const serviceEnv = await readJsonAtRoot('service-env.json');
+
+    const serviceClientFactory = new ServiceClientFactory(id);
+    serviceClientFactory.setServiceEnv(serviceEnv);
+
+    return serviceClientFactory;
   }
 }
 

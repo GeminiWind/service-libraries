@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## Changed
+
+-  `ServiceClientFactory` no longer uses Service Registry API to reduce latency. Now, it reads `service-env.json` and find the correct endpoint in this file.
+-  `StorageClient` to use new `ServiceClientFactory`
+
+## Removed
+
+- `useStorage` middleware because of resource consuming (read file each time the request is coming)
+
 ## [0.4.0] - 17-03-2020
 
 ### Added

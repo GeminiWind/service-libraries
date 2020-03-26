@@ -43,34 +43,38 @@ app.get('/hello-world', httpHandler(simpleResponse))
 
 ### schemaValidator
 
-`schemaValidator` is basically instance of `ajv` (to validate data with the corresponding schema), including some basic configuration. To use `schemaValidator`, follow the instruction
+`schemaValidator` is basically instance of `ajv` (to validate data with the corresponding schema), including pre-defined basic configuration.
+
+To use `schemaValidator`, follow the instruction
 
 ```javascript
 import { schemaValidator } from '@hai.dinh/service-libraries';
 
 const validator = schemaValidator.compile(schema);
 const isValid = validator(yourData);
+
+if (!isValid) {
+    console.log('Your data is invalid.', validator.errors)
+}
 ```
 
 ### ServiceClientFactory
 
-`ServiceClientFactory` acts as service discovery in microservice system to find the endpoint of targeted service. To use this, do the following:
+Taking file `service-env.json` (render by [`service-registry-cli pull`](https://www.npmjs.com/package/@hai.dinh/service-registry-cli)) as input, `ServiceClientFactory` acts as service discovery in microservice system to find the endpoint of targeted service. To use this, do the following:
 
 ```javascript
 import { ServiceClientFactory } from '@hai.dinh/service-libraries';
 
 ...
 
-const serviceClient = new ServiceClientFactory({
-    name: <registered-service-name>
-});
+const serviceClient = await ServiceClientFactory.create(<service-id>);
 
 const response = await serviceClient.request(config)
 ```
 
 #### ServiceClientFactory API
 
-- serviceClient.request(config)
+- serviceClient.request(config: AxiosConfig)
 
 ```javascript
     // Send a POST request
@@ -83,33 +87,20 @@ const response = await serviceClient.request(config)
         }
     });
 ```
-`ServiceClientFactory` uses `axios` as HTTP Client. For full config, you can get in [here](https://github.com/axios/axios#request-config).
+`ServiceClientFactory` uses [`axios`](https://github.com/axios/axios) behind the scene. For full configuration, you can get in [here](https://github.com/axios/axios#request-config).
 
-### Middlewares
-
-#### useStorage
-
-`useStorage` middleware delegates `storageClient` in the request to help your service using storage in the easiest way
+### StorageClient
 
 ```javascript
-import { useStorage } from '@hai.dinh/service-libraries/middlewares';
+import { StorageClient } from '@hai.dinh/service-libraries';
 
-...
-// in your service (Express)
-const app = express();
-
-app.use(useStorage)
-
-// get storageClient from your request
-app.get('/', (req, res) => {
-    const { storageClient } = res;
-})
 ```
 
-##### Storage Client API
-
+#### API
 - create
 ```javascript
+    const storageClient = await StorageClient.create();
+
     const record = await storageClient.create(documentPath, {
         "Content": documentContent,
         "Type": documentType,
@@ -118,14 +109,20 @@ app.get('/', (req, res) => {
 ```
 - get
 ```javascript
+    const storageClient = await StorageClient.create();
+
     const record = await storageClient.get(documentPath)
 ```
 - list
 ```javascript
+    const storageClient = await StorageClient.create();
+
     const record = await storageClient.list(options)
 ```
 - update
 ```javascript
+    const storageClient = await StorageClient.create();
+
     const record = await storageClient.update(documentPath, {
         "Content": documentContent,
         "Type": documentType,
@@ -134,12 +131,17 @@ app.get('/', (req, res) => {
 ```
 - delete
 ```javascript
+    const storageClient = await StorageClient.create();
+
     const record = await storageClient.delete(documentPath)
 ```
 
+
+### Middlewares
+
 #### traceRequest
 
-`traceRequest` middleware allow Express application to capture and foward `X-Request-ID` from original request headers to other services in communication to ease tracing
+`traceRequest` middleware allow Express application to capture and foward `X-Request-ID` from original request headers, then set it to process environment variable for other libraries(logger, http client ...) can consume it
 
 - Usage
 
@@ -151,6 +153,8 @@ import { traceRequest } from '@hai.dinh/service-libraries/middlewares';
 const app = express();
 
 app.use(traceRequest)
+
+console.log(process.env['X-Request-Id'])
 ```
 
 #### useInstrumentation

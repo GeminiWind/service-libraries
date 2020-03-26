@@ -6,10 +6,14 @@ import ServiceClientFactory from './ServiceClientFactory';
 import { normalizeDocument, normalizeErrorResponse } from './helpers';
 
 class StorageClient {
-  constructor() {
-    this.storageClient = new ServiceClientFactory({
-      name: 'storage-service',
-    });
+  constructor(storageClient) {
+    this.storageClient = storageClient;
+  }
+
+  static async create(id = 'storage-service') {
+    const storageServiceClient = await ServiceClientFactory.create(id);
+
+    return new StorageClient(storageServiceClient);
   }
 
   async create(Path, doc) {
