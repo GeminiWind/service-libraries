@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 27-03-2020
+
 ## Added
 
 - Log error by `logger` for `StorageClient` and `ServiceClientFactory`
@@ -128,6 +130,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial release
 
+[1.1.0]: https://github.com/GeminiWind/service-libraries/compare/1.0.0...1.1.0
 [1.0.0]: https://github.com/GeminiWind/service-libraries/compare/0.4.0...1.0.0
 [0.4.0]: https://github.com/GeminiWind/service-libraries/compare/0.3.1...0.4.0
 [0.3.1]: https://github.com/GeminiWind/service-libraries/compare/0.3.0...0.3.1
