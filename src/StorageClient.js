@@ -3,11 +3,12 @@ import get from 'lodash.get';
 import qs from 'qs';
 import * as R from 'ramda';
 import ServiceClientFactory from './ServiceClientFactory';
+import logger from './logger';
 import { normalizeDocument, normalizeErrorResponse } from './helpers';
 
 class StorageClient {
-  constructor(storageClient) {
-    this.storageClient = storageClient;
+  constructor(storageServiceClient) {
+    this.storageServiceClient = storageServiceClient;
   }
 
   static async create(id = 'storage-service') {
@@ -20,7 +21,7 @@ class StorageClient {
     let response;
 
     try {
-      const res = await this.storageClient.request({
+      const res = await this.storageServiceClient.request({
         url: '/documents',
         method: 'POST',
         headers: {
@@ -49,7 +50,7 @@ class StorageClient {
       if (err.response) {
         response = normalizeErrorResponse(err.response);
       } else {
-        console.log('Error in creating document.', err);
+        logger.error('Error in creating document.', err);
 
         throw new InternalError('Error in creating document.');
       }
@@ -62,7 +63,7 @@ class StorageClient {
     let response;
 
     try {
-      const res = await this.storageClient.request({
+      const res = await this.storageServiceClient.request({
         url: `/documents/${Path}`,
         method: 'GET',
         headers: {
@@ -80,7 +81,7 @@ class StorageClient {
       if (err.response) {
         response = normalizeErrorResponse(err.response);
       } else {
-        console.log('Error in getting document.', err);
+        logger.error('Error in getting document.', err);
 
         throw new InternalError('Error in creating document.');
       }
@@ -105,7 +106,7 @@ class StorageClient {
     });
 
     try {
-      const res = await this.storageClient.request({
+      const res = await this.storageServiceClient.request({
         url: `/documents?${q}`,
         method: 'GET',
         headers: {
@@ -123,7 +124,7 @@ class StorageClient {
       if (err.response) {
         response = normalizeErrorResponse(err.response);
       } else {
-        console.log('Error in listing document.', err);
+        logger.error('Error in listing document.', err);
 
         throw new InternalError('Error in listing document.');
       }
@@ -136,7 +137,7 @@ class StorageClient {
     let response;
 
     try {
-      const res = await this.storageClient.request({
+      const res = await this.storageServiceClient.request({
         url: `/documents/${Path}`,
         method: 'PATCH',
         headers: {
@@ -164,7 +165,7 @@ class StorageClient {
       if (err.response) {
         response = normalizeErrorResponse(err.response);
       } else {
-        console.log('Error in updating document.', err);
+        logger.error('Error in updating document.', err);
 
         throw new InternalError('Error in updating document.');
       }
@@ -177,7 +178,7 @@ class StorageClient {
     let response;
 
     try {
-      const res = await this.storageClient.request({
+      const res = await this.storageServiceClient.request({
         url: `/documents/${Path}`,
         method: 'DELETE',
         headers: {
@@ -195,7 +196,7 @@ class StorageClient {
       if (err.response) {
         response = normalizeErrorResponse(err.response);
       } else {
-        console.log('Error in deleting document.', err);
+        logger.error('Error in deleting document.', err);
 
         throw new InternalError('Error in deleting document.');
       }

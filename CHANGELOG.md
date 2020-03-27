@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## Added
+
+- Log error by `logger` for `StorageClient` and `ServiceClientFactory`
+- Handle error when reading json file for `readJsonAtRoot`
+
+## Changed
+
+- Filename to log in `logger` be absolute path.
+
 ## [1.0.0] - 26-03-2020
 
 ## Changed

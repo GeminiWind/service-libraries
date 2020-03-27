@@ -1,6 +1,7 @@
 import * as R from 'ramda';
 import { NotFoundError } from 'json-api-error';
 import axios from 'axios';
+import logger from './logger';
 import { readJsonAtRoot } from './helpers';
 
 const patchHeaders = R.pipe(
@@ -29,6 +30,8 @@ class ServiceClientFactory {
     const target = R.find(R.propEq('id', this.id))(resolvedDependencies);
 
     if (!target) {
+      logger.error(`Service with id: "${this.id}" was not found`);
+
       throw new NotFoundError(`Service with id: "${this.id}" was not found`);
     }
 

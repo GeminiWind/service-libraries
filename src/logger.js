@@ -1,4 +1,8 @@
 import log4js from 'log4js';
+import path from 'path';
+import rootDir from 'app-root-dir';
+
+const dir = rootDir.get();
 
 log4js.configure(
   {
@@ -7,7 +11,7 @@ log4js.configure(
     appenders: {
       app: {
         type: 'file',
-        filename: 'log/app.log',
+        filename: path.resolve(dir, './log/app.log'),
         maxLogSize: 10 * 1024 * 1024, // = 10Mb
         backups: 5, // keep five backup files
         compress: true, // compress the backups
@@ -24,7 +28,7 @@ log4js.configure(
       },
       http: {
         type: 'file',
-        filename: 'log/access.log',
+        filename: path.resolve(dir, './log/access.log'),
         maxLogSize: 10 * 1024 * 1024, // = 10Mb
         backups: 5, // keep five backup files
         compress: true, // compress the backups
