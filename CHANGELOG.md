@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Update `@hai.dinh/service-registry-cli^2.0.0` in peer dependencies
+
 ## [1.1.0] - 27-03-2020
 
 ## Added
